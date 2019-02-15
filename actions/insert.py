@@ -36,7 +36,8 @@ class SQLInsertAction(BaseAction):
                                     autoload_with=self.engine)
 
         # Execute the insert query
-        self.conn.execute(sql_table.insert(), insert_data)
+        self.conn.execute(sql_table.insert(),  # pylint: disable-msg=no-value-for-parameter
+                         insert_data)
 
         # Disconnect from the database
         self.conn.close()

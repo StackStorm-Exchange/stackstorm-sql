@@ -31,7 +31,7 @@ class SQLUpdateAction(BaseAction):
         sql_table = sqlalchemy.Table(table, self.meta, autoload=True, autoload_with=self.engine)
 
         # Intantiate update object
-        updates = sql_table.update()
+        updates = sql_table.update()  # pylint: disable-msg=no-value-for-parameter
 
         # Generate Where Statement
         if where_dict:

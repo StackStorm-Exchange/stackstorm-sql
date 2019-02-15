@@ -30,7 +30,7 @@ class SQLDeleteAction(BaseAction):
         sql_table = sqlalchemy.Table(table, self.meta, autoload=True, autoload_with=self.engine)
 
         # Intantiate delete object
-        delete = sql_table.delete()
+        delete = sql_table.delete()  # pylint: disable-msg=no-value-for-parameter
 
         # Generate Where Statement
         if where_dict:
