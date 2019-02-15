@@ -1,0 +1,14 @@
+---
+sql:
+  postgresql:
+    host: postgresql_db.domain.tld
+    username: stackstorm_svc@domain.tld
+    password: Password
+    database: TestDatabase
+    database_type: postgresql
+  mysql:
+    host: mysql_db.domain.tld
+    username: stackstorm@domain.tld
+    password: NewPassword
+    database: TestDatabase
+    database_type: mysql

@@ -1,1 +1,43 @@
 ---
+
+sql:
+  type: "object"
+  required: true
+  patternProperties:
+      "^\\w+":
+        "$ref": "#/properties/connection"
+  additionalProperties: false
+
+connection:
+  type: object
+  properties:
+    host:
+      description: "Database server to connect to. If not using a default port add that here. ex. host.domain.tld or host.domain.tld:1234"
+      type: string
+      required: true
+    username:
+      description: "Username for authentication"
+      type: string
+      required: true
+    password:
+      description: "Password of the specified username"
+      type: string
+      secret: true
+      required: true
+    database:
+      description: "Database to connect to, to run querys against."
+      type: string
+      required: true
+    database_type:
+      description: "The type of database that is being connected to."
+      type: string
+      enum:
+        - postgresql
+        - sqlite
+        - mssql
+        - mysql
+        - oracle
+        - firebird
+        - sybase
+      required: true
+  additionalProperties: false
