@@ -3,7 +3,7 @@
   runner_type: "python-script"
   description: "Query data from a SQL database"
   enabled: true
-  entry_point: query.py
+  entry_point: generic_query.py
   parameters:
     connection:
       type: string

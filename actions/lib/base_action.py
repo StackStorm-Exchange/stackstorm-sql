@@ -70,17 +70,20 @@ class BaseAction(Action):
         overrides.
         Returns Query object
         """
+        return_dict = {}
         for key in where_dict.keys():
+            value = where_dict[key]
             # All column names are reserved. Adding a '_' to the begging of the name
             new_key = "_" + key
 
             # Add WHERE statement to the update object
             sql_obj = sql_obj.where(sql_table.c.get(key) == sqlalchemy.sql.bindparam(new_key))
 
-            # Replace key in dictionary with one that will work
-            where_dict[new_key] = where_dict.pop(key)
+            # Add correct key and value to the new dictionary so it can be returned and
+            # used in the query
+            return_dict[new_key] = value
 
-        return (sql_obj, where_dict)
+        return (sql_obj, return_dict)
 
     def generate_values(self, sql_obj, data_dict):
         """Generate values statement for sql queries with the proper
@@ -138,7 +141,7 @@ class BaseAction(Action):
         :returns: a dictionary with the connection parameters (see: CONFIG_CONNECTION_KEYS)
         resolved.
         """
-        connection_name = self.get_del_arg('connection', kwargs_dict)
+        connection_name = self.get_del_arg('connection', kwargs_dict, True)
         config_connection = None
         if connection_name:
             config_connection = self.config['sql'].get(connection_name)
