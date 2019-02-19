@@ -12,23 +12,27 @@ connection:
   type: object
   properties:
     host:
-      description: "Database server to connect to. If not using a default port add that here. ex. host.domain.tld or host.domain.tld:1234"
+      description: "Database server to connect to. ex. host.domain.tld"
       type: string
-      required: true
+      required: false
     username:
       description: "Username for authentication"
       type: string
-      required: true
+      required: false
     password:
       description: "Password of the specified username"
       type: string
       secret: true
-      required: true
+      required: false
     database:
       description: "Database to connect to, to run querys against."
       type: string
       required: true
-    database_type:
+    port:
+      description: "Port to connect to database on. If Default leave blank"
+      type: integer
+      required: false
+    drivername:
       description: "The type of database that is being connected to."
       type: string
       enum:

@@ -28,10 +28,12 @@ yum install unixODBC-devel
 2. Execute an action (example: query)
 
     ``` shell
-    st2 run sql.query host=test_serve.domain.tld username=test_user password=test_password database=test_database database_type=postgresql query="select * from test;"
+    st2 run sql.query host=test_serve.domain.tld username=test_user password=test_password database=test_database drivername=postgresql query="select * from test;"
     ```
 
-## Configuration
+## Configuration and Connecting to Databases
+Connecting to different types of databases is shown below. Connecting to different databases is done in the same manor except with sqlite where all you need to pass is the path to the database in the database option. This is show below. For more information about connections please refer to [SQLAlchemy Connection Docs](https://docs.sqlalchemy.org/en/latest/core/engines.html)
+
 Copy the example configuration in [sql.yaml.example](./sql.yaml.example)
 to `/opt/stackstorm/configs/sql.yaml` and edit as required.
 
@@ -45,13 +47,17 @@ sql:
     username: stackstorm_svc@domain.tld
     password: Password
     database: TestDatabase
-    database_type: postgresql
+    port: 5432
+    drivername: postgresql
   mysql:
     host: mysql_db.domain.tld
     username: stackstorm@domain.tld
     password: NewPassword
     database: TestDatabase
-    database_type: mysql
+    drivername: mysql
+  sqlite:
+    database: /path/to/db.sqlite
+    drivername: sqlite
 ```
 
 Each entry should contain
@@ -60,12 +66,13 @@ Each entry should contain
 * ``username`` - Username to authenticate to DB
 * ``password`` - Password for DB authentication
 * ``database`` - Database to use
-* ``database_type`` - The type of database that is being connected to.
+* ``port`` - Port to connect to database on. If Default leave blank
+* ``drivername`` - The type of database that is being connected to.
 
 When running actions, you can pass in the name of a connection, e.g.
 `st2 run sql.query connection="postgresql" query="select * from test;"`
 
-Alternatively, when running an action, you can pass in the host, username, password, database, database_type parameters. These parameters can also be used for overrides if you wish to use the configs as well.
+Alternatively, when running an action, you can pass in the host, username, password, database, port, drivername parameters. These parameters can also be used for overrides if you wish to use the configs as well.
 
 **Note** : When modifying the configuration in `/opt/stackstorm/configs/` please remember to tell StackStorm to load these new values by running `st2ctl reload --register-configs`
 

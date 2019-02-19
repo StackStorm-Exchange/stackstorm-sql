@@ -1,14 +1,16 @@
 from st2common.runners.base_action import Action
 import sqlalchemy
+from sqlalchemy.engine.url import URL
 import decimal
 import datetime
 
 #                         (key, required, default)
-CONFIG_CONNECTION_KEYS = [('host', True, ""),
-                          ('username', True, ""),
-                          ('password', True, ""),
+CONFIG_CONNECTION_KEYS = [('host', False, ""),
+                          ('username', False, ""),
+                          ('password', False, ""),
                           ('database', True, ""),
-                          ('database_type', True, "")]
+                          ('port', False, None),
+                          ('drivername', True, "")]
 
 
 class BaseAction(Action):
@@ -34,6 +36,9 @@ class BaseAction(Action):
             return None
 
     def merge_dicts(self, dicts):
+        """ Merge Array of dictionaries into 1 single Dictionary
+        and return.
+        """
         result = {}
         for d in dicts:
             if d:
@@ -60,6 +65,11 @@ class BaseAction(Action):
         return return_dict
 
     def generate_where_clause(self, sql_table, sql_obj, where_dict):
+        """Generate WHERE Clause for sql queries with the proper
+        SQLAlchemy syntax and binding to the proper parameters with
+        overrides.
+        Returns Query object
+        """
         for key in where_dict.keys():
             # All column names are reserved. Adding a '_' to the begging of the name
             new_key = "_" + key
@@ -73,6 +83,11 @@ class BaseAction(Action):
         return (sql_obj, where_dict)
 
     def generate_values(self, sql_obj, data_dict):
+        """Generate values statement for sql queries with the proper
+        SQLAlchemy syntax and binding to the proper parameters with
+        overrides.
+        Returns Query object
+        """
         for key in data_dict.keys():
             key_dictionary = {key: sqlalchemy.sql.bindparam(key)}
             sql_obj = sql_obj.values(**key_dictionary)
@@ -80,11 +95,10 @@ class BaseAction(Action):
         return sql_obj
 
     def connect_to_db(self, connection):
-        database_connection_string = "{0}://{1}:{2}@{3}/{4}".format(connection['database_type'],
-                                                                    connection['username'],
-                                                                    connection['password'],
-                                                                    connection['host'],
-                                                                    connection['database'])
+        """Connect to the database and instantiate necessary methods to be used
+        later.
+        """
+        database_connection_string = URL(**connection)
 
         self.engine = sqlalchemy.create_engine(database_connection_string, echo=False)
         self.conn = self.engine.connect()
@@ -92,7 +106,7 @@ class BaseAction(Action):
 
         return True
 
-    def validate_connection(self, connection):
+    def validate_connection(self, connection, connection_name):
         """Ensures that all required parameters are in the connection. If a
         required parameter is missing a KeyError exception is raised.
         :param connection: connection to validate
@@ -107,9 +121,9 @@ class BaseAction(Action):
             if not required:
                 continue
 
-            if connection['connection']:
+            if connection_name:
                 raise KeyError("config.yaml mising: sql:{0}:{1}"
-                               .format(connection['connection'], key))
+                               .format(connection_name, key))
             else:
                 raise KeyError("Because the 'connection' action parameter was"
                                " not specified, the following action parameter"
@@ -132,7 +146,7 @@ class BaseAction(Action):
                 raise KeyError("config.yaml missing connection: sql:{0}"
                                .format(connection_name))
 
-        action_connection = {'connection': connection_name}
+        action_connection = {}
 
         # Override the keys in creds read in from the config given the
         # override parameters from the action itself
@@ -155,6 +169,6 @@ class BaseAction(Action):
             if key in kwargs_dict:
                 del kwargs_dict[key]
 
-        self.validate_connection(action_connection)
+        self.validate_connection(action_connection, connection_name)
 
         return action_connection
