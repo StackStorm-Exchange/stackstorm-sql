@@ -4,13 +4,12 @@ Query, Insert, Update, and Delete information from PostgreSQL, SQLite, MsSQL, My
 ## Pre-Requisites
 This pack is set up to provide funcationality for the above databases. For MySQL and MsSQL we need to install 2 system packages.
 
-#### MySQL
+#### [MySQL](https://pypi.org/project/mysqlclient/)
 ``` shell
 yum install mysql-devel
 ```
 
-#### MsSQL
-https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017
+#### [MsSQL](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017)
 ``` shell
 curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssql-release.repo
 yum install msodbcsql17
