@@ -30,7 +30,8 @@ class SQLQueryAction(BaseAction):
         return_result = {'affected_rows': query_result.rowcount}
         if query_result.returns_rows:
             return_result = []
-            for row in query_result:
+            all_results = query_result.fetchall()
+            for row in all_results:
                 # Rows are returned as tuples with keys. Convert that to a dictionary for return
                 return_result.append(self.row_to_dict(row))
 
