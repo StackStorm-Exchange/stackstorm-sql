@@ -1,0 +1,10 @@
+---
+connections:
+  missing-drivername:
+    username: Administrator
+    password: PassworD!
+    database: Test
+  missing-database:
+    server: database.domian.tld
+    password: PassworD!
+    drivername: postgresql

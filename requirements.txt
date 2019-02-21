@@ -1,0 +1,6 @@
+sqlalchemy
+psycopg2
+mysqlclient
+pyodbc
+cx_Oracle
+fdb
