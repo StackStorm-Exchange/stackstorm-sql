@@ -21,15 +21,15 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         self.assertIsInstance(action, BaseAction)
         self.assertIsInstance(action, Action)
 
-    @mock.patch('lib.base_action.BaseAction.connect_to_db')
+    @mock.patch('lib.base_action.BaseAction.db_connection')
     @mock.patch('delete.sqlalchemy')
     def test_run_object(self, mock_sqlalchemy, mock_connect_to_db):
         action = self.get_action_instance(self.config_good)
         connection_name = 'full'
-        connection_config = self.config_good['sql'][connection_name]
+        connection_config = self.config_good['connections'][connection_name]
         test_dict = {
             'table': 'Test_Table',
-            'where_data': {
+            'where': {
                 'column_1': 'value_1'
             }
         }
@@ -38,7 +38,6 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         expected_result = {'affected_rows': 1}
         action_meta = 'MetaData'
         action_engine = "Engine Data"
-        mock_connect_to_db.return_value = "Successfully connected"
         mock_where_return = "Where statment"
         mock_where = mock.Mock()
         mock_where.where.return_value = mock_where_return
@@ -48,6 +47,7 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         mock_connection = mock.Mock()
         mock_connection.execute.return_value = mock_query_results
         mock_connection.close.return_value = "Successfully disconnected"
+        mock_connect_to_db.return_value.__enter__.return_value = mock_connection
 
         action.conn = mock_connection
         action.meta = action_meta
@@ -56,19 +56,18 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
 
         result = action.run(**test_dict)
         self.assertEqual(result, expected_result)
-        mock_connect_to_db.assert_called_once_with(connection_config)
+        mock_connect_to_db.assert_called_once_with(test_dict)
         mock_sqlalchemy.Table.assert_called_once_with(test_dict['table'],
                                                       action_meta,
                                                       autoload=True,
                                                       autoload_with=action_engine)
         mock_connection.execute.assert_called_once_with(mock_where_return, execute_dict)
 
-    @mock.patch('lib.base_action.BaseAction.connect_to_db')
+    @mock.patch('lib.base_action.BaseAction.db_connection')
     @mock.patch('delete.sqlalchemy')
     def test_run_array(self, mock_sqlalchemy, mock_connect_to_db):
         action = self.get_action_instance(self.config_good)
         connection_name = 'full'
-        connection_config = self.config_good['sql'][connection_name]
         test_dict = {
             'connection': connection_name,
             'table': 'Test_Table'
@@ -76,7 +75,6 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         expected_result = {'affected_rows': 20}
         action_meta = 'MetaData'
         action_engine = "Engine Data"
-        mock_connect_to_db.return_value = "Successfully connected"
         mock_delete_return = "Delete Statement"
         mock_sql_table = mock.Mock()
         mock_sql_table.delete.return_value = mock_delete_return
@@ -84,6 +82,7 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         mock_connection = mock.Mock()
         mock_connection.execute.return_value = mock_query_results
         mock_connection.close.return_value = "Successfully disconnected"
+        mock_connect_to_db.return_value.__enter__.return_value = mock_connection
 
         action.conn = mock_connection
         action.meta = action_meta
@@ -92,7 +91,7 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
 
         result = action.run(**test_dict)
         self.assertEqual(result, expected_result)
-        mock_connect_to_db.assert_called_once_with(connection_config)
+        mock_connect_to_db.assert_called_once_with(test_dict)
         mock_sqlalchemy.Table.assert_called_once_with(test_dict['table'],
                                                       action_meta,
                                                       autoload=True,

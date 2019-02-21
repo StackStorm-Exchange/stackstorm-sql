@@ -3,6 +3,7 @@ import sqlalchemy
 from sqlalchemy.engine.url import URL
 import decimal
 import datetime
+from contextlib import contextmanager
 
 #                         (key, required, default)
 CONFIG_CONNECTION_KEYS = [('host', False, ""),
@@ -97,17 +98,25 @@ class BaseAction(Action):
 
         return sql_obj
 
-    def connect_to_db(self, connection):
+    @contextmanager
+    def db_connection(self, kwargs_dict):
         """Connect to the database and instantiate necessary methods to be used
         later.
         """
+        # Get the connection details from either config or from action params
+        connection = self.resolve_connection(kwargs_dict)
+
+        # Format the connection string
         database_connection_string = URL(**connection)
 
         self.engine = sqlalchemy.create_engine(database_connection_string, echo=False)
-        self.conn = self.engine.connect()
         self.meta = sqlalchemy.MetaData()
+        conn = self.engine.connect()
 
-        return True
+        try:
+            yield conn
+        finally:
+            conn.close()
 
     def validate_connection(self, connection, connection_name):
         """Ensures that all required parameters are in the connection. If a
@@ -144,7 +153,7 @@ class BaseAction(Action):
         connection_name = self.get_del_arg('connection', kwargs_dict, True)
         config_connection = None
         if connection_name:
-            config_connection = self.config['sql'].get(connection_name)
+            config_connection = self.config['connections'].get(connection_name)
             if not config_connection:
                 raise KeyError("config.yaml missing connection: sql:{0}"
                                .format(connection_name))

@@ -1,5 +1,5 @@
 ---
-sql:
+connections:
   base:
     host: abc
     username: Administrator

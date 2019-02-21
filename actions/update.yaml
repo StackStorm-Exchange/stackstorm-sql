@@ -47,7 +47,7 @@
       type: string
       description: "Database table to UPDATE."
       required: true
-    where_data:
+    where:
       type: object
       description: >
         Dictionary of data to be used to create a WHERE clause for the UPDATE statement
@@ -59,7 +59,7 @@
         }
       required: false
       default: {}
-    update_data:
+    update:
       type: object
       description: >
         Dictionary of data to be used to as Values to update for the UPDATE statement

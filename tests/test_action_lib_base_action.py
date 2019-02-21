@@ -203,38 +203,30 @@ class TestActionLibBaseAction(SqlBaseActionTestCase):
     def test_connect_to_db(self, mock_sqlalchemy):
         action = self.get_action_instance(self.config_good)
         connection_name = 'full'
-        connection_config = self.config_good['sql'][connection_name]
+        connection_config = self.config_good['connections'][connection_name]
         mock_engine = mock.Mock()
         mock_engine.connect.return_value = 'Connected'
         mock_sqlalchemy.create_engine.return_value = mock_engine
         mock_sqlalchemy.MetaData.return_value = 'MetaData'
 
-        result = action.connect_to_db(connection_config)
-        self.assertEqual(result, True)
-        self.assertEqual(action.engine, mock_engine)
-        self.assertEqual(action.conn, 'Connected')
-        self.assertEqual(action.meta, 'MetaData')
+        action.db_connection(connection_config)
 
     @mock.patch('lib.base_action.sqlalchemy')
     def test_connect_to_db_sqlite(self, mock_sqlalchemy):
         action = self.get_action_instance(self.config_good)
         connection_name = 'sqlite'
-        connection_config = self.config_good['sql'][connection_name]
+        connection_config = self.config_good['connections'][connection_name]
         mock_engine = mock.Mock()
         mock_engine.connect.return_value = 'Connected'
         mock_sqlalchemy.create_engine.return_value = mock_engine
         mock_sqlalchemy.MetaData.return_value = 'MetaData'
 
-        result = action.connect_to_db(connection_config)
-        self.assertEqual(result, True)
-        self.assertEqual(action.engine, mock_engine)
-        self.assertEqual(action.conn, 'Connected')
-        self.assertEqual(action.meta, 'MetaData')
+        action.db_connection(connection_config)
 
     def test_resolve_connection_from_config(self):
         action = self.get_action_instance(self.config_good)
         connection_name = 'full'
-        connection_config = self.config_good['sql'][connection_name]
+        connection_config = self.config_good['connections'][connection_name]
         connection_expected = {}
         connection_expected.update(connection_config)
         kwargs_dict = {'connection': connection_name}
@@ -251,7 +243,7 @@ class TestActionLibBaseAction(SqlBaseActionTestCase):
     def test_resolve_connection_from_config_defaults(self):
         action = self.get_action_instance(self.config_good)
         connection_name = 'base'
-        connection_config = self.config_good['sql'][connection_name]
+        connection_config = self.config_good['connections'][connection_name]
         connection_expected = {}
         connection_expected.update(connection_config)
         for key, required, default in CONFIG_CONNECTION_KEYS:

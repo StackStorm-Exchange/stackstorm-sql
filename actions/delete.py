@@ -17,29 +17,24 @@ class SQLDeleteAction(BaseAction):
         """
         kwargs_dict = dict(kwargs)
 
-        where_dict = self.get_del_arg('where_data', kwargs_dict, True)
-        table = self.get_del_arg('table', kwargs_dict, True)
+        where_dict = self.get_del_arg('where', kwargs_dict)
+        table = self.get_del_arg('table', kwargs_dict)
 
-        # Get the connection details from either config or from action params
-        connection_details = self.resolve_connection(kwargs_dict)
+        with self.db_connection(kwargs_dict) as conn:
+            # Get the SQL table
+            sql_table = sqlalchemy.Table(table,
+                                        self.meta,
+                                        autoload=True,
+                                        autoload_with=self.engine)
 
-        # Connect to the Database
-        self.connect_to_db(connection_details)
+            # Intantiate delete object
+            delete = sql_table.delete()  # pylint: disable-msg=no-value-for-parameter
 
-        # Get the SQL table
-        sql_table = sqlalchemy.Table(table, self.meta, autoload=True, autoload_with=self.engine)
+            # Generate Where Statement
+            if where_dict:
+                delete, where_dict = self.generate_where_clause(sql_table, delete, where_dict)
 
-        # Intantiate delete object
-        delete = sql_table.delete()  # pylint: disable-msg=no-value-for-parameter
-
-        # Generate Where Statement
-        if where_dict:
-            delete, where_dict = self.generate_where_clause(sql_table, delete, where_dict)
-
-        # Execute query
-        result = self.conn.execute(delete, where_dict)
-
-        # Disconnect from the database
-        self.conn.close()
+            # Execute query
+            result = conn.execute(delete, where_dict)
 
         return {'affected_rows': result.rowcount}

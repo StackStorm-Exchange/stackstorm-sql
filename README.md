@@ -40,7 +40,7 @@ It can contain an array of one or more sets of SQL connection parameters, like t
 
 ``` yaml
 ---
-sql:
+connections:
   postgresql:
     host: postgresql_db.domain.tld
     username: stackstorm_svc@domain.tld
@@ -75,7 +75,9 @@ Alternatively, when running an action, you can pass in the host, username, passw
 
 **Note** : When modifying the configuration in `/opt/stackstorm/configs/` please remember to tell StackStorm to load these new values by running `st2ctl reload --register-configs`
 
-# Actions
+# Usage
+
+## Actions
 
 | Action | Description |
 |--------|-------------|
@@ -84,3 +86,20 @@ Alternatively, when running an action, you can pass in the host, username, passw
 | insert_bulk | Bulk insert data into a database table. Insert data is passed as an array of objects. |
 | update | Update data in a database table. |
 | delete | Delete data from a database table. |
+
+## Where statements
+
+The Update and Delete actions give the option to include where data into the query. This only works for AND statements.
+
+Example:
+```
+where = {
+    'column_1': 'value_1',
+    'column_2': 'value_2'
+}
+
+Produces the statement:
+WHERE column_1 == 'value_1' AND column_2 == 'value_2'
+```
+
+For more complicated queries please use the query action.

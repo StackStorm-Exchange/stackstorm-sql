@@ -17,29 +17,21 @@ class SQLInsertAction(BaseAction):
         """
         kwargs_dict = dict(kwargs)
 
-        insert_data = self.get_del_arg('data', kwargs_dict, True)
-        insert_table = self.get_del_arg('table', kwargs_dict, True)
+        insert_data = self.get_del_arg('data', kwargs_dict)
+        insert_table = self.get_del_arg('table', kwargs_dict)
 
         if not isinstance(insert_data, list):
             insert_data = [insert_data]
 
-        # Get the connection details from either config or from action params
-        connection_details = self.resolve_connection(kwargs_dict)
+        with self.db_connection(kwargs_dict) as conn:
+            # Get the Table to insert data into
+            sql_table = sqlalchemy.Table(insert_table,
+                                        self.meta,
+                                        autoload=True,
+                                        autoload_with=self.engine)
 
-        # Connect to the Database
-        self.connect_to_db(connection_details)
-
-        # Get the Table to insert data into
-        sql_table = sqlalchemy.Table(insert_table,
-                                    self.meta,
-                                    autoload=True,
-                                    autoload_with=self.engine)
-
-        # Execute the insert query
-        self.conn.execute(sql_table.insert(),  # pylint: disable-msg=no-value-for-parameter
-                         insert_data)
-
-        # Disconnect from the database
-        self.conn.close()
+            # Execute the insert query
+            conn.execute(sql_table.insert(),  # pylint: disable-msg=no-value-for-parameter
+                        insert_data)
 
         return True

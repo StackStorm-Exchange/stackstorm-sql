@@ -47,7 +47,7 @@
       type: string
       description: "Database table to DELETE."
       required: true
-    where_data:
+    where:
       type: object
       description: >
         Dictionary of data to be used to create a WHERE clause for the DELETE statement

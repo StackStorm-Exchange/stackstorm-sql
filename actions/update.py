@@ -17,35 +17,30 @@ class SQLUpdateAction(BaseAction):
         """
         kwargs_dict = dict(kwargs)
 
-        where_dict = self.get_del_arg('where_data', kwargs_dict, True)
-        update_dict = self.get_del_arg('update_data', kwargs_dict, True)
-        table = self.get_del_arg('table', kwargs_dict, True)
+        where_dict = self.get_del_arg('where', kwargs_dict)
+        update_dict = self.get_del_arg('update', kwargs_dict)
+        table = self.get_del_arg('table', kwargs_dict)
 
-        # Get the connection details from either config or from action params
-        connection_details = self.resolve_connection(kwargs_dict)
+        with self.db_connection(kwargs_dict) as conn:
+            # Get the SQL table
+            sql_table = sqlalchemy.Table(table,
+                                        self.meta,
+                                        autoload=True,
+                                        autoload_with=self.engine)
 
-        # Connect to the Database
-        self.connect_to_db(connection_details)
+            # Intantiate update object
+            updates = sql_table.update()  # pylint: disable-msg=no-value-for-parameter
 
-        # Get the SQL table
-        sql_table = sqlalchemy.Table(table, self.meta, autoload=True, autoload_with=self.engine)
+            # Generate Where Statement
+            if where_dict:
+                updates, where_dict = self.generate_where_clause(sql_table, updates, where_dict)
 
-        # Intantiate update object
-        updates = sql_table.update()  # pylint: disable-msg=no-value-for-parameter
+            updates = self.generate_values(updates, update_dict)
 
-        # Generate Where Statement
-        if where_dict:
-            updates, where_dict = self.generate_where_clause(sql_table, updates, where_dict)
+            # Combine Dictionaries
+            query_dict = self.merge_dicts([where_dict, update_dict])
 
-        updates = self.generate_values(updates, update_dict)
-
-        # Combine Dictionaries
-        query_dict = self.merge_dicts([where_dict, update_dict])
-
-        # Execute query
-        result = self.conn.execute(updates, query_dict)
-
-        # Disconnect from the database
-        self.conn.close()
+            # Execute query
+            result = conn.execute(updates, query_dict)
 
         return {'affected_rows': result.rowcount}

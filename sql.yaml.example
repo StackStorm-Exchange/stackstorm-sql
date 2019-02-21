@@ -1,5 +1,5 @@
 ---
-sql:
+connections:
   postgresql:
     host: postgresql_db.domain.tld
     username: stackstorm_svc@domain.tld

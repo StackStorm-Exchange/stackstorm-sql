@@ -1,5 +1,5 @@
 ---
-sql:
+connections:
   missing-drivername:
     username: Administrator
     password: PassworD!
