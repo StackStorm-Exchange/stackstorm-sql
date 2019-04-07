@@ -35,13 +35,5 @@ connection:
     drivername:
       description: "The type of database that is being connected to."
       type: string
-      enum:
-        - postgresql
-        - sqlite
-        - mssql
-        - mysql
-        - oracle
-        - firebird
-        - sybase
       required: true
   additionalProperties: false

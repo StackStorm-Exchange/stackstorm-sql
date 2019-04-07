@@ -34,14 +34,6 @@
     drivername:
       type: string
       description: "Optional override of the database_type in <connection> (required if <connection> is not specified). The type of database that is being connected to."
-      enum:
-        - postgresql
-        - sqlite
-        - mssql
-        - mysql
-        - oracle
-        - firebird
-        - sybase
       required: false
     table:
       type: string

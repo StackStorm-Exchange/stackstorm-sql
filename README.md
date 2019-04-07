@@ -1,19 +1,16 @@
 # SQL Integration Pack
-Query, Insert, Update, and Delete information from PostgreSQL, SQLite, MsSQL, MySQL, Oracle, Firebird, and Sybase Databases
+Query, Insert, Update, and Delete information from PostgreSQL, MsSQL, MySQL, Oracle, Firebird Databases. Additional databases can be added by installing the pre-requisite packes and passing the driver name as documented at [SQLAlchemy Dialects Doc](https://docs.sqlalchemy.org/en/latest/dialects/index.html).
 
-## Pre-Requisites
-This pack is set up to provide funcationality for the above databases. For MySQL and MsSQL we need to install 2 system packages.
+## Included Drivers
+This pack is already set up to connect to the databases listed above. Additional databases can be connected to but pre-requisite packages will need to be installed before the drivers will work. [SQLAlchemy Dialects Doc](https://docs.sqlalchemy.org/en/latest/dialects/index.html).
 
-#### [MySQL](https://pypi.org/project/mysqlclient/)
-``` shell
-yum install mysql-devel
+You can pass any of the following driver names without any additional packages needing installed.
 ```
-
-#### [MsSQL](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017)
-``` shell
-curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssql-release.repo
-yum install msodbcsql17
-yum install unixODBC-devel
+postgresql
+mssql
+mysql
+oracle
+firebird
 ```
 
 ## Quick Start
