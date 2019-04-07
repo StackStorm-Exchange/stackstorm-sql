@@ -21,6 +21,7 @@ DEFAULT_KNOWN_DRIVER_CONNECTORS = {
     'firebird': 'firebird+fdb'
 }
 
+
 class BaseAction(Action):
     def __init__(self, config):
         """Creates a new BaseAction given a StackStorm config object (kwargs works too)
