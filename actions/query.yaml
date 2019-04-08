@@ -1,0 +1,41 @@
+---
+  name: query
+  runner_type: "python-script"
+  description: "Query data from a SQL database"
+  enabled: true
+  entry_point: generic_query.py
+  parameters:
+    connection:
+      type: string
+      description: "Name of <connection> from this pack's configuration that specifies how to connect to a database server."
+      required: false
+    host:
+      type: string
+      description: >
+        Optional override of the database host in <connection> (required if <connection> is not specified). Database server to connect to. If not using a default port add that here. ex. host.domain.tld or host.domain.tld:1234
+      required: false
+    username:
+      type: string
+      description: "Optional override of the username in <connection> (required if <connection> is not specified). Username for authentication"
+      required: false
+    password:
+      type: string
+      description: "Optional override of the password in <connection> (required if <connection> is not specified). Password of the specified username"
+      secret: true
+      required: false
+    database:
+      type: string
+      description: "Optional override of the database in <connection> (required if <connection> is not specified). Database to connect to, to run querys against."
+      required: false
+    port:
+      description: "Port to connect to database on. If Default leave blank"
+      type: integer
+      required: false
+    drivername:
+      type: string
+      description: "Optional override of the database_type in <connection> (required if <connection> is not specified). The type of database that is being connected to."
+      required: false
+    query:
+      type: string
+      description: "Query to execute"
+      required: true

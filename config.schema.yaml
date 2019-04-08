@@ -1,0 +1,39 @@
+---
+
+connections:
+  type: "object"
+  required: true
+  patternProperties:
+      "^\\w+":
+        "$ref": "#/properties/connection"
+  additionalProperties: false
+
+connection:
+  type: object
+  properties:
+    host:
+      description: "Database server to connect to. e.g. host.domain.tld"
+      type: string
+      required: false
+    username:
+      description: "Username for authentication"
+      type: string
+      required: false
+    password:
+      description: "Password of the specified username"
+      type: string
+      secret: true
+      required: false
+    database:
+      description: "Database to connect to, to run queries against."
+      type: string
+      required: true
+    port:
+      description: "Port to connect to database on. If Default leave blank"
+      type: integer
+      required: false
+    drivername:
+      description: "The type of database that is being connected to."
+      type: string
+      required: true
+  additionalProperties: false

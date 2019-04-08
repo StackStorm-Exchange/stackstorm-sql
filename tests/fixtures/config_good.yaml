@@ -1,0 +1,18 @@
+---
+connections:
+  base:
+    host: abc
+    username: Administrator
+    password: PassworD!
+    database: test
+    drivername: postgresql
+  full:
+    host: abc
+    username: Administrator
+    password: PassworD!
+    port: 1234
+    database: test
+    drivername: mysql
+  sqlite:
+    database: path/to/test
+    drivername: sqlite
