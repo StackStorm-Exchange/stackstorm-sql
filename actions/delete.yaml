@@ -1,0 +1,53 @@
+---
+  name: delete
+  runner_type: "python-script"
+  description: "Deletes data from the SQL database"
+  enabled: true
+  entry_point: delete.py
+  parameters:
+    connection:
+      type: string
+      description: "Name of <connection> from this pack's configuration that specifies how to connect to a database server."
+      required: false
+    host:
+      type: string
+      description: >
+        Optional override of the database host in <connection> (required if <connection> is not specified). Database server to connect to. If not using a default port add that here. ex. host.domain.tld or host.domain.tld:1234
+      required: false
+    username:
+      type: string
+      description: "Optional override of the username in <connection> (required if <connection> is not specified). Username for authentication"
+      required: false
+    password:
+      type: string
+      description: "Optional override of the password in <connection> (required if <connection> is not specified). Password of the specified username"
+      secret: true
+      required: false
+    database:
+      type: string
+      description: "Optional override of the database in <connection> (required if <connection> is not specified). Database to connect to, to run querys against."
+      required: false
+    port:
+      description: "Port to connect to database on. If Default leave blank"
+      type: integer
+      required: false
+    drivername:
+      type: string
+      description: "Optional override of the database_type in <connection> (required if <connection> is not specified). The type of database that is being connected to."
+      required: false
+    table:
+      type: string
+      description: "Database table to DELETE."
+      required: true
+    where:
+      type: object
+      description: >
+        Dictionary of data to be used to create a WHERE clause for the DELETE statement
+        {
+          'column_1': 'data_to_match_1',
+          'column_2': 'data_to_match_2',
+          'column_3': 'data_to_match_3',
+          'column_4': 'data_to_match_4',
+        }
+      required: false
+      default: {}

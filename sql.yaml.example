@@ -1,0 +1,18 @@
+---
+connections:
+  postgresql:
+    host: postgresql_db.domain.tld
+    username: stackstorm_svc@domain.tld
+    password: Password
+    database: TestDatabase
+    port: 5432
+    drivername: postgresql
+  mysql:
+    host: mysql_db.domain.tld
+    username: stackstorm@domain.tld
+    password: NewPassword
+    database: TestDatabase
+    drivername: mysql
+  sqlite:
+    database: /path/to/db.sqlite
+    drivername: sqlite

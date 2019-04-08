@@ -1,0 +1,52 @@
+---
+  name: insert
+  runner_type: "python-script"
+  description: "Insert data into a SQL database"
+  enabled: true
+  entry_point: insert.py
+  parameters:
+    connection:
+      type: string
+      description: "Name of <connection> from this pack's configuration that specifies how to connect to a database server."
+      required: false
+    host:
+      type: string
+      description: >
+        Optional override of the database host in <connection> (required if <connection> is not specified). Database server to connect to. If not using a default port add that here. ex. host.domain.tld or host.domain.tld:1234
+      required: false
+    username:
+      type: string
+      description: "Optional override of the username in <connection> (required if <connection> is not specified). Username for authentication"
+      required: false
+    password:
+      type: string
+      description: "Optional override of the password in <connection> (required if <connection> is not specified). Password of the specified username"
+      secret: true
+      required: false
+    database:
+      type: string
+      description: "Optional override of the database in <connection> (required if <connection> is not specified). Database to connect to, to run querys against."
+      required: false
+    port:
+      description: "Port to connect to database on. If Default leave blank"
+      type: integer
+      required: false
+    drivername:
+      type: string
+      description: "Optional override of the database_type in <connection> (required if <connection> is not specified). The type of database that is being connected to."
+      required: false
+    table:
+      type: string
+      description: "Database table to insert data into."
+      required: true
+    data:
+      type: object
+      description: >
+        Dictionary of data to be inserted where the key corresponds to the column of the table
+        {
+          'column_1': 'data_to_insert_1',
+          'column_2': 'data_to_insert_2',
+          'column_3': 'data_to_insert_3',
+          'column_4': 'data_to_insert_4',
+        }
+      required: true
