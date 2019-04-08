@@ -13,6 +13,14 @@ CONFIG_CONNECTION_KEYS = [('host', False, ""),
                           ('port', False, None),
                           ('drivername', True, "")]
 
+DEFAULT_KNOWN_DRIVER_CONNECTORS = {
+    'postgresql': 'postgresql+psycopg2',
+    'mysql': 'mysql+pymysql',
+    'oracle': 'oracle+cx_oracle',
+    'mssql': 'mssql+pymssql',
+    'firebird': 'firebird+fdb'
+}
+
 
 class BaseAction(Action):
     def __init__(self, config):
@@ -105,6 +113,11 @@ class BaseAction(Action):
         """
         # Get the connection details from either config or from action params
         connection = self.resolve_connection(kwargs_dict)
+
+        # Update Driver with a connector
+        default_driver = DEFAULT_KNOWN_DRIVER_CONNECTORS.get(connection['drivername'], None)
+        if default_driver:
+            connection['drivername'] = default_driver
 
         # Format the connection string
         database_connection_string = URL(**connection)
