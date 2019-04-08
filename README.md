@@ -209,15 +209,22 @@ update_data:
 
 The Update and Delete actions give the option to include where data into the query. This only works for AND statements.
 
-Example:
+Example (YAML for workflows):
+```yaml
+where:
+  column_1: "value_1"
+  column_2: "value_2"
 ```
-where = {
-    'column_1': 'value_1',
-    'column_2': 'value_2'
-}
 
-Produces the statement:
+Example (JSON for `st2` CLI):
+```shell
+where='{"column_1": "value_1", "column_2": "value_2"}'
+```
+
+Produces the SQL `WHERE` statement:
+
+```sql
 WHERE column_1 == 'value_1' AND column_2 == 'value_2'
 ```
 
-For more complicated queries please use the query action.
+For more complicated queries please use the `sql.query` action.
