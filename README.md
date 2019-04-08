@@ -20,7 +20,7 @@ Query, Insert, Update, and Delete information from PostgreSQL, MsSQL, MySQL, Ora
 ## Included Drivers
 This pack is already set up to connect to the databases listed above. Additional databases can be connected to but pre-requisite packages will need to be installed before the drivers will work. [SQLAlchemy Dialects Doc](https://docs.sqlalchemy.org/en/latest/dialects/index.html).
 
-You can pass any of the following driver names without any additional packages needing installed.
+You can pass any of the following driver names without any additional packages needing installed:
 * `postgresql` - PostgreSQL databases
 * `mssql` - Microsoft SQL Server databases
 * `mysql` - MySQL/MariaDB databases
@@ -29,7 +29,7 @@ You can pass any of the following driver names without any additional packages n
 
 
 ## Configuration and Connecting to Databases
-Connecting to different types of databases is shown below. Connecting to different databases is done in the same manor except with sqlite where all you need to pass is the path to the database in the database option. This is show below. For more information about connections please refer to [SQLAlchemy Connection Docs](https://docs.sqlalchemy.org/en/latest/core/engines.html)
+Connecting to different types of databases is shown below. Connecting to different databases is done in the same manner except with sqlite where all you need to pass is the path to the database in the database option. This is shown below. For more information about connections please refer to [SQLAlchemy Connection Docs](https://docs.sqlalchemy.org/en/latest/core/engines.html)
 
 Copy the example configuration in [sql.yaml.example](./sql.yaml.example)
 to `/opt/stackstorm/configs/sql.yaml` and edit as required.
