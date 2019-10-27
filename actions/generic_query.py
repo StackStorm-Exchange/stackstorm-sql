@@ -18,17 +18,19 @@ class SQLQueryAction(BaseAction):
 
         query = self.get_del_arg('query', kwargs_dict)
 
+        return_result = None
         with self.db_connection(kwargs_dict) as conn:
             # Execute the query
             query_result = conn.execute(query)
 
-        return_result = {'affected_rows': query_result.rowcount}
-        if query_result.returns_rows:
-            return_result = []
-            all_results = query_result.fetchall()
-            for row in all_results:
-                # Rows are returned as tuples with keys.
-                # Convert that to a dictionary for return
-                return_result.append(self.row_to_dict(row))
+            # We need to execute these commands while connection is still open.
+            return_result = {'affected_rows': query_result.rowcount}
+            if query_result.returns_rows:
+                return_result = []
+                all_results = query_result.fetchall()
+                for row in all_results:
+                    # Rows are returned as tuples with keys.
+                    # Convert that to a dictionary for return
+                    return_result.append(self.row_to_dict(row))
 
         return return_result
