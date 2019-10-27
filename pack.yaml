@@ -2,10 +2,10 @@
 ref: sql
 name: sql
 description: StackStorm Integration Pack for SQL Databases (Postgres, MySQL, etc)
-keywords: 
+keywords:
     - Postgres
-    -  MySQL
-    -  MsSQL
-version: 0.1.0
+    - MySQL
+    - MsSQL
+version: 0.1.1
 author: Encore Technologies
 email: code@encore.tech
