@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.3
+
+- Pinned cx_Oracle<=7.3.0. Addresses #9
+
 ## 0.1.2
 
 - Fixed issue with generic query where connection was being closed before query results were returned.
