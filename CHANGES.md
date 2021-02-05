@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0
+
+* Drop Python 2.7 support
+
 ## 0.1.3
 
 - Pinned cx_Oracle<=7.3.0. Addresses #9
