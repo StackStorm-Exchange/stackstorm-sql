@@ -1,6 +1,6 @@
 sqlalchemy
 psycopg2 <=2.7.5
 pymysql
-pymssql
-cx_Oracle
+pymssql<3.0
+cx_Oracle<=7.3.0
 fdb
