@@ -43,7 +43,17 @@ class SQLProcedureAction(BaseAction):
         return_result = None
         try:
             exec_result = session.execute(exec_stmt)
-            return_result = {'affected_rows': exec_result.rowcount}
+
+            if exec_result.returns_rows:
+                return_result = []
+                all_results = exec_result.fetchall()
+                for row in all_results:
+                    # Rows are returned as tuples with keys.
+                    # Convert that to a dictionary for return
+                    return_result.append(self.row_to_dict(row))
+            else:
+                return_result = {'affected_rows': exec_result.rowcount}
+
             session.commit()
         except Exception as error:
             session.rollback()
