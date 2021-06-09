@@ -12,7 +12,7 @@ connections:
     password: PassworD!
     port: 1234
     database: test
-    drivername: mysql
+    drivername: mysql+pymysql
   sqlite:
     database: path/to/test
     drivername: sqlite

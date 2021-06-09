@@ -16,7 +16,7 @@ class SQLProcedureAction(BaseAction):
         if proc_data_obj:
             proc_data_list = []
             for name, value in proc_data_obj.items():
-                proc_data_list.append("@{0}={1}".format(name, value))
+                proc_data_list.append("@{0}='{1}'".format(name, value))
 
             proc_data_string = ",".join(proc_data_list)
 
@@ -35,11 +35,13 @@ class SQLProcedureAction(BaseAction):
         proc_name = self.get_del_arg('procedure_name', kwargs_dict)
 
         exec_stmt = "EXEC {} {}".format(proc_name, proc_data_string)
+        print(exec_stmt)
 
         database_connection_string = self.build_connection(kwargs_dict)
+        print(database_connection_string)
         engine = sqlalchemy.create_engine(database_connection_string)
         session = sessionmaker(bind=engine)()
-        
+
         return_result = None
         try:
             exec_result = session.execute(exec_stmt)
@@ -52,5 +54,5 @@ class SQLProcedureAction(BaseAction):
             raise error
         finally:
             session.close()
-        
+
         return return_result

@@ -118,7 +118,6 @@ class BaseAction(Action):
         # Format the connection string
         return URL(**connection)
 
-
     @contextmanager
     def db_connection(self, kwargs_dict):
         """Connect to the database and instantiate necessary methods to be used

@@ -4,6 +4,7 @@ from lib.base_action import BaseAction
 from lib.base_action import CONFIG_CONNECTION_KEYS
 from st2common.runners.base_action import Action
 from insert import SQLInsertAction
+from sqlalchemy.engine.url import URL
 import decimal
 import datetime
 
@@ -197,6 +198,24 @@ class TestActionLibBaseAction(SqlBaseActionTestCase):
         mock_sql_obj.values.side_effect = [mock_sql_obj, expected_output]
 
         result = action.generate_values(mock_sql_obj, test_dict)
+        self.assertEqual(result, expected_output)
+
+    def test_build_connection(self):
+        action = self.get_action_instance(self.config_good)
+        connection_name = 'full'
+        connection_config = self.config_good['connections'][connection_name]
+        expected_output = URL(**connection_config)
+
+        result = action.build_connection(connection_config)
+        self.assertEqual(result, expected_output)
+
+    def test_build_connection_sqlite(self):
+        action = self.get_action_instance(self.config_good)
+        connection_name = 'sqlite'
+        connection_config = self.config_good['connections'][connection_name]
+        expected_output = URL(**connection_config)
+
+        result = action.build_connection(connection_config)
         self.assertEqual(result, expected_output)
 
     @mock.patch('lib.base_action.sqlalchemy')
