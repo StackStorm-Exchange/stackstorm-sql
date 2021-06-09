@@ -35,10 +35,8 @@ class SQLProcedureAction(BaseAction):
         proc_name = self.get_del_arg('procedure_name', kwargs_dict)
 
         exec_stmt = "EXEC {} {}".format(proc_name, proc_data_string)
-        print(exec_stmt)
 
         database_connection_string = self.build_connection(kwargs_dict)
-        print(database_connection_string)
         engine = sqlalchemy.create_engine(database_connection_string)
         session = sessionmaker(bind=engine)()
 
