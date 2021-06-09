@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.1.0
+
+- Added new action to run SQL Procedures
+  Contributed by Bradley Bishop (Encore Technologies)
+
 ## 1.0.0
 
 * Drop Python 2.7 support

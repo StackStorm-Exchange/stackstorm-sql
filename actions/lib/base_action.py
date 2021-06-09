@@ -106,11 +106,7 @@ class BaseAction(Action):
 
         return sql_obj
 
-    @contextmanager
-    def db_connection(self, kwargs_dict):
-        """Connect to the database and instantiate necessary methods to be used
-        later.
-        """
+    def build_connection(self, kwargs_dict):
         # Get the connection details from either config or from action params
         connection = self.resolve_connection(kwargs_dict)
 
@@ -120,7 +116,15 @@ class BaseAction(Action):
             connection['drivername'] = default_driver
 
         # Format the connection string
-        database_connection_string = URL(**connection)
+        return URL(**connection)
+
+    @contextmanager
+    def db_connection(self, kwargs_dict):
+        """Connect to the database and instantiate necessary methods to be used
+        later.
+        """
+        # Format the connection string
+        database_connection_string = self.build_connection(kwargs_dict)
 
         self.engine = sqlalchemy.create_engine(database_connection_string, echo=False)
         self.meta = sqlalchemy.MetaData()
