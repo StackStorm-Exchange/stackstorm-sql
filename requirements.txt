@@ -1,5 +1,5 @@
 sqlalchemy
-psycopg2 <=2.7.5
+psycopg2 <=2.8
 pymysql
 pymssql<3.0
 cx_Oracle<=7.3.0
