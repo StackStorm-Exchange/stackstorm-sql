@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.0
+
+* Update psycopg2 to 2.8 to support python 3.8
+
 ## 1.0.0
 
 * Drop Python 2.7 support
@@ -15,8 +19,8 @@
 
 ## v0.1.1
 
-Pack bump to update files from master to a tagged release.
+* Pack bump to update files from master to a tagged release.
 
 ## v0.1.0
 
-Initial Revision
+* Initial Revision
