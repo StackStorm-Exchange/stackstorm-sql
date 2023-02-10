@@ -120,7 +120,7 @@ class BaseAction(Action):
             connection['drivername'] = default_driver
 
         # Check if query is in de connection
-        if 'query' in connection:
+        if 'query' not in connection:
             connection['query'] = ()
 
         # Format the connection string
