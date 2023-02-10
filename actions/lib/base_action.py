@@ -119,6 +119,10 @@ class BaseAction(Action):
         if default_driver:
             connection['drivername'] = default_driver
 
+        # Check if query is in de connection
+        if 'query' not in connection:
+            connection['query'] = ()
+
         # Format the connection string
         database_connection_string = URL(**connection)
 
