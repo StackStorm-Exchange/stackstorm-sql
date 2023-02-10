@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.1
+
+* Resolve issue where query is sometimes missing
+
 ## 1.1.0
 
 * Update psycopg2 to 2.8 to support python 3.8
