@@ -118,6 +118,10 @@ class BaseAction(Action):
         default_driver = DEFAULT_KNOWN_DRIVER_CONNECTORS.get(connection['drivername'], None)
         if default_driver:
             connection['drivername'] = default_driver
+          
+        # Check if query is in de connection
+        if 'query' in connection:
+            connection['query'] = ()
 
         # Format the connection string
         database_connection_string = URL(**connection)
