@@ -61,7 +61,7 @@ class BaseAction(Action):
         returns: dictionary of values
         """
         return_dict = {}
-        for column in row.keys():
+        for column in row._asdict().keys():
             value = getattr(row, column)
 
             if isinstance(value, datetime.date):
@@ -120,8 +120,12 @@ class BaseAction(Action):
             connection['drivername'] = default_driver
 
         # Check if query is in de connection
+        # We use a immutabledict as required by the documentation of sqlalchemy instead of a tuple.
+        # Because sqlalchemy made for this funtions its own 'datatype' that it knows how to handle.
+        # Aimes to be compatible with tuple but not fully.
+        # https://www.programcreek.com/python/example/58798/sqlalchemy.util.immutabledict
         if 'query' not in connection:
-            connection['query'] = ()
+            connection['query'] = sqlalchemy.util.immutabledict()
 
         # Format the connection string
         database_connection_string = URL(**connection)

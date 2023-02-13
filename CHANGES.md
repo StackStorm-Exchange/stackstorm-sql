@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.2.0
+
+* Fixed internal working of the query action compatible with sqlalchemy 2.0+
+* Replaced row_to_dict tuple keys loop with sqlalchemy todict function
+
 ## 1.1.1
 
 * Resolve issue where query is sometimes missing

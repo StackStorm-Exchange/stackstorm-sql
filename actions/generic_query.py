@@ -18,10 +18,9 @@ class SQLQueryAction(BaseAction):
 
         query = self.get_del_arg('query', kwargs_dict)
 
-        return_result = None
         with self.db_connection(kwargs_dict) as conn:
             # Execute the query
-            query_result = conn.execute(query)
+            query_result = conn.exec_driver_sql(query)
 
             # We need to execute these commands while connection is still open.
             return_result = {'affected_rows': query_result.rowcount}
@@ -33,4 +32,7 @@ class SQLQueryAction(BaseAction):
                     # Convert that to a dictionary for return
                     return_result.append(self.row_to_dict(row))
 
-        return return_result
+            return return_result
+
+        # If The with is broken or crashes for some reason we return an False (error) with None as the data
+        return (False, None)
