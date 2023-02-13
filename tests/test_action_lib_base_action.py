@@ -28,10 +28,10 @@ class TestObjectDBNum():
     def __init__(self):
         self.teststring = 'value'
         self.testinteger = 1
-        self.testdecimal=decimal.Decimal('5.543')
-        self.testfloat=2.352
-        self.testdict={'test': 'value'}
-        self.testdatetime=datetime.datetime(2019, 1, 1, 0, 0)
+        self.testdecimal = decimal.Decimal('5.543')
+        self.testfloat = 2.352
+        self.testdict = {'test': 'value'}
+        self.testdatetime = datetime.datetime(2019, 1, 1, 0, 0)
 
     def _asdict(self):
         return {'teststring': 'value',
