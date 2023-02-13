@@ -16,6 +16,9 @@ __all__ = [
 
 
 class TestObjectDB():
+    def __init__(self):
+        self.test1 = 'value'
+        self.test2 = 'value2'
     def _asdict(self):
         return {'test1': 'value', 'test2': 'value2'}
 
