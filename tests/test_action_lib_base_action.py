@@ -24,6 +24,23 @@ class TestObjectDB():
         return {'test1': 'value', 'test2': 'value2'}
 
 
+class TestObjectDBNum():
+    def __init__(self):
+        self.teststring = 'value'
+        self.testinteger = 1
+        self.testdecimal=decimal.Decimal('5.543')
+        self.testfloat=2.352
+        self.testdict={'test': 'value'}
+        self.testdatetime=datetime.datetime(2019, 1, 1, 0, 0)
+
+    def _asdict(self):
+        return {'teststring': 'value',
+                'testdecimal': decimal.Decimal('5.543'),
+                'testfloat': 2.352,
+                'testdict': {'test': 'value'},
+                'testdatetime': datetime.datetime(2019, 1, 1, 0, 0)}
+
+
 class TestActionLibBaseAction(SqlBaseActionTestCase):
     __test__ = True
     action_cls = SQLInsertAction
@@ -115,18 +132,7 @@ class TestActionLibBaseAction(SqlBaseActionTestCase):
 
     def test_row_to_dict_unit_convert(self):
         action = self.get_action_instance({})
-        test_row = mock.Mock(teststring='value',
-                            testinteger=1,
-                            testdecimal=decimal.Decimal('5.543'),
-                            testfloat=2.352,
-                            testdict={'test': 'value'},
-                            testdatetime=datetime.datetime(2019, 1, 1, 0, 0))
-        test_row.keys.return_value = ['teststring',
-                                    'testinteger',
-                                    'testdecimal',
-                                    'testfloat',
-                                    'testdict',
-                                    'testdatetime']
+        test_row = TestObjectDBNum()
         expected_result = {
             'testinteger': 1,
             'testdict': {'test': 'value'},
