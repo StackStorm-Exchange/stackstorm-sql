@@ -14,9 +14,10 @@ __all__ = [
     'TestActionLibBaseAction'
 ]
 
+
 class TestObjectDB():
-  def _asdict(self):
-    return {'test1': 'value', 'test2': 'value2'}
+    def _asdict(self):
+        return {'test1': 'value', 'test2': 'value2'}
 
 
 class TestActionLibBaseAction(SqlBaseActionTestCase):
