@@ -47,7 +47,7 @@ class TestActionSQLQueryAction(SqlBaseActionTestCase):
         mock_query_results = mock.Mock(returns_rows=True, rowcount=1)
         mock_query_results.fetchall.return_value = [test_row]
         mock_connection = mock.Mock()
-        mock_connection.execute.return_value = mock_query_results
+        mock_connection.exec_driver_sql.return_value = mock_query_results
         mock_connection.close.return_value = "Successfully disconnected"
         mock_connect_to_db.return_value.__enter__.return_value = mock_connection
 
@@ -56,7 +56,7 @@ class TestActionSQLQueryAction(SqlBaseActionTestCase):
         result = action.run(**test_dict)
         self.assertEqual(result, expected_result)
         mock_connect_to_db.assert_called_once_with(test_dict)
-        mock_connection.execute.assert_called_once_with(test_dict['query'])
+        mock_connection.exec_driver_sql.assert_called_once_with(test_dict['query'])
 
     @mock.patch('lib.base_action.BaseAction.db_connection')
     def test_run_connction(self, mock_connect_to_db):
@@ -78,4 +78,4 @@ class TestActionSQLQueryAction(SqlBaseActionTestCase):
         result = action.run(**test_dict)
         self.assertEqual(result, expected_result)
         mock_connect_to_db.assert_called_once_with(test_dict)
-        mock_connection.execute.assert_called_once_with(test_dict['query'])
+        mock_connection.exec_driver_sql.assert_called_once_with(test_dict['query'])
