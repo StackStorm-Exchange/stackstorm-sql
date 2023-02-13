@@ -96,7 +96,7 @@ class TestActionLibBaseAction(SqlBaseActionTestCase):
 
     def test_row_to_dict(self):
         action = self.get_action_instance({})
-        test_row = mock.Mock({'test1':'value','test2':'value2'})
+        test_row = mock.Mock({'test1': 'value', 'test2': 'value2'})
         test_row.keys.return_value = ['test1', 'test2']
         expected_result = {
             'test1': 'value',
