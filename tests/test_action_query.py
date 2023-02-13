@@ -11,6 +11,15 @@ __all__ = [
 ]
 
 
+class TestObjectDB():
+    def __init__(self):
+        self.test1 = 'value'
+        self.test2 = 'value2'
+
+    def _asdict(self):
+        return {'test1': 'value', 'test2': 'value2'}
+
+
 class TestActionSQLQueryAction(SqlBaseActionTestCase):
     __test__ = True
     action_cls = SQLQueryAction
@@ -30,8 +39,7 @@ class TestActionSQLQueryAction(SqlBaseActionTestCase):
             'query': 'generic query'
         }
         test_dict.update(connection_config)
-        test_row = mock.Mock(test1='value', test2='value2')
-        test_row.keys.return_value = ['test1', 'test2']
+        test_row = TestObjectDB()
         expected_result = [{
             'test1': 'value',
             'test2': 'value2'
@@ -61,7 +69,7 @@ class TestActionSQLQueryAction(SqlBaseActionTestCase):
         expected_result = {'affected_rows': 5}
         mock_query_results = mock.Mock(returns_rows=False, rowcount=5)
         mock_connection = mock.Mock()
-        mock_connection.execute.return_value = mock_query_results
+        mock_connection.exec_driver_sql.return_value = mock_query_results
         mock_connection.close.return_value = "Successfully disconnected"
         mock_connect_to_db.return_value.__enter__.return_value = mock_connection
 
