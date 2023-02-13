@@ -41,6 +41,7 @@ class TestObjectDBNum():
                 'testdict': {'test': 'value'},
                 'testdatetime': datetime.datetime(2019, 1, 1, 0, 0)}
 
+
 class TestActionLibBaseAction(SqlBaseActionTestCase):
     __test__ = True
     action_cls = SQLInsertAction
