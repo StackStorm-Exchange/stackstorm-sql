@@ -35,11 +35,11 @@ class TestObjectDBNum():
 
     def _asdict(self):
         return {'teststring': 'value',
+                'testinteger': 1,
                 'testdecimal': decimal.Decimal('5.543'),
                 'testfloat': 2.352,
                 'testdict': {'test': 'value'},
                 'testdatetime': datetime.datetime(2019, 1, 1, 0, 0)}
-
 
 class TestActionLibBaseAction(SqlBaseActionTestCase):
     __test__ = True
