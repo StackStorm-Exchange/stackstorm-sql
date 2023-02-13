@@ -34,6 +34,6 @@ class SQLQueryAction(BaseAction):
 
             return return_result
 
-        # If The with is broken or crashes for some reason 
+        # If The with is broken or crashes for some reason
         # we return an False (error) with None as the data
         return (False, None)
