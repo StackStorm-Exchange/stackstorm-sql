@@ -31,7 +31,8 @@ class SQLQueryAction(BaseAction):
                     # Rows are returned as tuples with keys.
                     # Convert that to a dictionary for return
                     return_result.append(self.row_to_dict(row))
-
+            else:
+                conn.commit()
             return return_result
 
         # If The with is broken or crashes for some reason
