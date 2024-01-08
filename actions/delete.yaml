@@ -44,10 +44,14 @@
       description: >
         Dictionary of data to be used to create a WHERE clause for the DELETE statement
         {
-          'column_1': 'data_to_match_1',
-          'column_2': 'data_to_match_2',
-          'column_3': 'data_to_match_3',
-          'column_4': 'data_to_match_4',
+          "column_1": "data_to_match_1",
+          "column_2": "data_to_match_2",
+          "column_3": "data_to_match_3",
+          "column_4": "data_to_match_4",
         }
       required: false
       default: {}
+    schema:
+      type: string
+      description: "Database schema under which the table is created."
+      required: false

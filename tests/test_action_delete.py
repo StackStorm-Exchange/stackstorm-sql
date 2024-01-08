@@ -59,6 +59,7 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         mock_connect_to_db.assert_called_once_with(test_dict)
         mock_sqlalchemy.Table.assert_called_once_with(test_dict['table'],
                                                       action_meta,
+                                                      schema=None,
                                                       autoload=True,
                                                       autoload_with=action_engine)
         mock_connection.execute.assert_called_once_with(mock_where_return, execute_dict)
@@ -94,6 +95,7 @@ class TestActionSQLDeleteAction(SqlBaseActionTestCase):
         mock_connect_to_db.assert_called_once_with(test_dict)
         mock_sqlalchemy.Table.assert_called_once_with(test_dict['table'],
                                                       action_meta,
+                                                      schema=None,
                                                       autoload=True,
                                                       autoload_with=action_engine)
         mock_connection.execute.assert_called_once_with(mock_delete_return, None)

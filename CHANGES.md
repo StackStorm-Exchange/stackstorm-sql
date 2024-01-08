@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.0
+
+* Added support for schema in insert, update and delete actions
+
 ## 1.1.1
 
 * Resolve issue where query is sometimes missing
