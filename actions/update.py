@@ -20,11 +20,13 @@ class SQLUpdateAction(BaseAction):
         where_dict = self.get_del_arg('where', kwargs_dict)
         update_dict = self.get_del_arg('update', kwargs_dict)
         table = self.get_del_arg('table', kwargs_dict)
+        schema = self.get_del_arg('schema', kwargs_dict)
 
         with self.db_connection(kwargs_dict) as conn:
             # Get the SQL table
             sql_table = sqlalchemy.Table(table,
                                         self.meta,
+                                        schema=schema,
                                         autoload=True,
                                         autoload_with=self.engine)
 
