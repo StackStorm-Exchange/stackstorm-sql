@@ -33,7 +33,7 @@ class SQLInsertAction(BaseAction):
                                         autoload_with=self.engine)
 
             # Execute the insert query
-            conn.execute(sql_table.insert(inline=True), 
+            conn.execute(sql_table.insert(inline=True),
                         insert_data)
 
         return True
