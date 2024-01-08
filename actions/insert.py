@@ -33,8 +33,8 @@ class SQLInsertAction(BaseAction):
                                         autoload_with=self.engine)
 
             # Execute the insert query
+            # pylint: disable-msg=no-value-for-parameter
             conn.execute(sql_table.insert(inline=True),
-                        # pylint: disable-msg=no-value-for-parameter
                         insert_data)
 
         return True
