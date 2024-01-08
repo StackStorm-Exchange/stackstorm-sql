@@ -19,6 +19,7 @@ class SQLInsertAction(BaseAction):
 
         insert_data = self.get_del_arg('data', kwargs_dict)
         insert_table = self.get_del_arg('table', kwargs_dict)
+        insert_schema = self.get_del_arg('schema', kwargs_dict)
 
         if not isinstance(insert_data, list):
             insert_data = [insert_data]
@@ -28,10 +29,11 @@ class SQLInsertAction(BaseAction):
             sql_table = sqlalchemy.Table(insert_table,
                                         self.meta,
                                         autoload=True,
+                                        schema=insert_schema,
                                         autoload_with=self.engine)
 
             # Execute the insert query
-            conn.execute(sql_table.insert(),  # pylint: disable-msg=no-value-for-parameter
+            conn.execute(sql_table.insert(inline=True),
                         insert_data)
 
         return True
