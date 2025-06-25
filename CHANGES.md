@@ -2,7 +2,7 @@
 
 ## 1.1.2
 
-* Pinned pymssql version to <=2.3.2 for Python 3.8 compatibility 
+* Pinned pymssql version to <=2.3.0 for Python 3.8 compatibility 
 
 ## 1.1.1
 
