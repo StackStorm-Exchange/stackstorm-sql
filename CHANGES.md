@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.2
+
+* Pinned pymssql version to <=2.3.0 for Python 3.8 compatibility 
+
 ## 1.1.1
 
 * Resolve issue where query is sometimes missing
